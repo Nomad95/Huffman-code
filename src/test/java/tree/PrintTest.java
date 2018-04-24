@@ -8,7 +8,7 @@ import treePrinter.PrintStrategyImpl.WeightPrintStrategy;
 public class PrintTest {
 
     @Test
-    public void shouldPrintTree() {//print leaves
+    public void shouldPrintTree() {
         FKGTree comparableFKGTree = (FKGTree) OperationsTest.createSampleTree();
 
         BTreePrinter.printNode(comparableFKGTree.getRootNode(), new WeightPrintStrategy());

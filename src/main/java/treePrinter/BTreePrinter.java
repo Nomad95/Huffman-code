@@ -1,5 +1,9 @@
 package treePrinter;
 
+import aspect.LogTimeExecutionAspect;
+import aspect.annotation.LogTimeExecution;
+import lombok.extern.log4j.Log4j;
+import org.apache.commons.logging.LogFactory;
 import tree.TreeNode;
 import tree.TreeOperations;
 
@@ -7,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+@Log4j
 public class BTreePrinter {
 
     public static <T extends TreeOperations> void printNode(TreeNode<T> root, PrintStrategy printStrategy) {
@@ -15,6 +20,7 @@ public class BTreePrinter {
         printNodeInternal(Collections.singletonList(root), 1, maxLevel, printStrategy);
     }
 
+    @LogTimeExecution
     private static <T extends TreeOperations> void printNodeInternal(List<TreeNode<T>> nodes, int level, int maxLevel, PrintStrategy printStrategy) {
         if (nodes.isEmpty() || BTreePrinter.isAllElementsNull(nodes)) {
             return;
