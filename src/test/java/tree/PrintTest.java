@@ -18,7 +18,7 @@ public class PrintTest {
     public void testChars() {
         char letter = 'a';
         for (int i = 0; i < 26; i++, letter++) {
-            System.out.println(Integer.toBinaryString(letter));
+            System.out.println(letter + " -> " + Integer.toBinaryString(letter));
         }
     }
 }

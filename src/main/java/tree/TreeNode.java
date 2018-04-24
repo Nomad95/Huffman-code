@@ -25,8 +25,6 @@ public class TreeNode<T extends TreeOperations> implements TreeOperations{
     public int compareTo(Object o) {
         if (o instanceof TreeNode) {
             TreeNode node = (TreeNode) o;
-            if (node.isNyt())
-                return Tree.NYT_COMPARE_VALUE;
             return value.compareTo(node.value);
         }
         return 1;

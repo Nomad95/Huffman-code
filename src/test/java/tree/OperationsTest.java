@@ -2,30 +2,65 @@ package tree;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import tree.factory.NodeFactory;
 import tree.impl.FKGTree;
+import tree.util.Trees;
 
 public class OperationsTest {
 
     @Test
-    public void shouldContainLetter() {
+    public void shouldContainValue() {
         FKGTree comparableFKGTree = (FKGTree) createSampleTree();
 
         TreeNodeValue value = new TreeNodeValue('b');
-        TreeNode<TreeNodeValue> node1 = new TreeNode<>(value);
 
-        boolean doesContain = comparableFKGTree.containsValueRecursive(comparableFKGTree.getRootNode(), node1.value);
-        Assertions.assertEquals(true, doesContain, "tree doesnt contain node with value: " + node1.printValue());
+        boolean doesContain = comparableFKGTree.containsValue(value);
+
+        Assertions.assertEquals(true, doesContain, "tree doesnt contain node with value: " + value);
     }
 
     @Test
-    public void shouldNotContainLetter() {
+    public void shouldNotContainValue() {
         FKGTree comparableFKGTree = (FKGTree) createSampleTree();
 
-        TreeNodeValue value2 = new TreeNodeValue('y');
-        TreeNode<TreeNodeValue> node2 = new TreeNode<>(value2);
+        TreeNodeValue value = new TreeNodeValue('y');
 
-        boolean doesContain = comparableFKGTree.containsValueRecursive(comparableFKGTree.getRootNode(), node2.value);
-        Assertions.assertEquals(false, doesContain, "tree contains node with value: " + node2.printValue());
+        boolean doesContain = comparableFKGTree.containsValue(value);
+
+        Assertions.assertEquals(false, doesContain, "tree contains node with value: " + value);
+    }
+
+    @Test
+    public void treeShouldHaveConsistentWeight() {
+        Tree tree = createSampleTree();
+        int treeRootWeight = Trees.getTreeRootWeight(tree);
+        int treeWeightSum = Trees.getTreeWeightSum(tree);
+
+        Assertions.assertEquals(treeRootWeight, treeWeightSum);
+    }
+
+    @Test
+    public void shouldDivideNytNode() {
+        Tree tree = createSampleTree();
+
+        int nodeCountBefore = Trees.nodeCount(tree);
+
+        tree.addValue(NodeFactory.createNodeOf(new TreeNodeValue('j')));
+
+        int nodeCountAfter = Trees.nodeCount(tree);
+
+        Assertions.assertEquals(nodeCountBefore + 2, nodeCountAfter);
+    }
+
+    @Test
+    public void shouldAddItemAndBePresent() {
+        Tree tree = createSampleTree();
+        TreeNode<TreeNodeValue> value = NodeFactory.createNodeOf(new TreeNodeValue('j'));
+
+        tree.addValue(value);
+        boolean doesContain = tree.containsValue(value);
+
+        Assertions.assertEquals(true, doesContain);
     }
 
     public static Tree createSampleTree() {

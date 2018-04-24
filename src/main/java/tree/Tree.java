@@ -1,6 +1,5 @@
 package tree;
 
-import aspect.annotation.LogTimeExecution;
 import lombok.Getter;
 import lombok.Setter;
 import tree.factory.NodeFactory;
@@ -11,8 +10,6 @@ import java.util.Objects;
 @Getter
 @Setter
 public abstract class Tree<T extends TreeNode, V extends TreeOperations> {
-
-    public static int NYT_COMPARE_VALUE = 2; //todo: maybe not needed
 
     protected T rootNode;
 
@@ -57,7 +54,11 @@ public abstract class Tree<T extends TreeNode, V extends TreeOperations> {
         current.right.parent = current;
     }
 
-    public boolean containsValueRecursive(TreeNode current, V value) {
+    public boolean containsValue(V value) {
+        return containsValueRecursive(getRootNode(), value);
+    }
+
+    private boolean containsValueRecursive(TreeNode current, V value) {
         if (Objects.isNull(current)) {
             return false;
         }
