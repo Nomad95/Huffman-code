@@ -1,10 +1,17 @@
 package tree;
 
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import tree.factory.NodeFactory;
 import tree.impl.FKGTree;
 import tree.util.Trees;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class OperationsTest {
 
@@ -61,6 +68,44 @@ public class OperationsTest {
         boolean doesContain = tree.containsValue(value);
 
         Assertions.assertEquals(true, doesContain);
+    }
+
+    @Test
+    public void shouldGetTreeHeight() {
+        Tree tree = createSampleTree();
+
+        int treeHeight = Trees.getTreeHeight(tree);
+
+        Assertions.assertEquals(5, treeHeight);
+    }
+
+    @Test
+    public void shouldGetReverseLevelOrderedNodesList() {
+        Tree tree = createSampleTree();
+
+        List<TreeNode> nodes = tree.getNodesReversedLevelOrder();
+
+        List<String> valuesList = nodes.stream().map(TreeNode::printValue).collect(Collectors.toList());
+        assertThat(valuesList, Matchers.contains(
+                "NYT",
+                "g",
+                "1",
+                "v",
+                "b",
+                "2",
+                "a",
+                "3",
+                "5"
+        ));
+    }
+
+    @Test
+    public void shouldBeHuffmanTree() {
+        Tree tree = createSampleTree();
+
+        boolean isHuffmanTree = Trees.isHuffmanTree(tree);
+
+        Assertions.assertEquals(true, isHuffmanTree);
     }
 
     public static Tree createSampleTree() {

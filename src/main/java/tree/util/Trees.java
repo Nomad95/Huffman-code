@@ -3,6 +3,8 @@ package tree.util;
 import tree.Tree;
 import tree.TreeNode;
 
+import java.util.List;
+import java.util.ListIterator;
 import java.util.Objects;
 
 public final class Trees {
@@ -37,5 +39,38 @@ public final class Trees {
         internalSum += countInternalNodes(node.left);
         internalSum += countInternalNodes(node.right);
         return internalSum;
+    }
+
+    public static int getTreeHeight(Tree tree) {
+        return getNodeHeight(tree.getRootNode());
+    }
+
+    private static int getNodeHeight(TreeNode node) {
+        if (Objects.isNull(node)) {
+            return 0;
+        }
+        int leftHeight = getNodeHeight(node.left);
+        int rightHeight = getNodeHeight(node.right);
+
+        if (leftHeight > rightHeight) {
+            return leftHeight + 1;
+        } else {
+            return rightHeight + 1;
+        }
+    }
+
+    public static boolean isHuffmanTree(Tree tree) {
+        List<TreeNode> nodes = tree.getNodesReversedLevelOrder();
+        ListIterator<TreeNode> iterator = nodes.listIterator();
+        TreeNode current = iterator.next();
+        while (iterator.hasNext()) {
+            TreeNode next = iterator.next();
+            if (current.weight > next.weight) {
+                return false;
+            }
+            current = next;
+        }
+
+        return true;
     }
 }

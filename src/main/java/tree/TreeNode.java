@@ -1,5 +1,7 @@
 package tree;
 
+import java.util.Objects;
+
 public class TreeNode<T extends TreeOperations> implements TreeOperations{
 
     public T value;
@@ -35,6 +37,10 @@ public class TreeNode<T extends TreeOperations> implements TreeOperations{
         if (this.isNyt()) {
             return "NYT";
         }
+        if (Objects.isNull(value)) {
+            return String.valueOf(weight);
+        }
+
         return value.printValue();
     }
 }

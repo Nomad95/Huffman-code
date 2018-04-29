@@ -20,4 +20,9 @@ public class TreeNodeValue implements TreeOperations {
     public String printValue() {
         return "" + letter;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj != null && obj instanceof TreeNodeValue && ((TreeNodeValue) obj).letter == this.letter;
+    }
 }
