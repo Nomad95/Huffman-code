@@ -31,7 +31,6 @@ public abstract class Tree<T extends TreeNode, V extends TreeOperations> {
         if (Objects.nonNull(current)){
             if (Objects.nonNull(current.value) && value.compareTo(current.value) == 0) {
                 updateTree(current);
-                addWeightTillRootPath(current);
                 return;
             }
             addRecursive(current.left, value);
@@ -44,7 +43,6 @@ public abstract class Tree<T extends TreeNode, V extends TreeOperations> {
             if (current.isNyt()) {
                 TreeNode newNode = divideNyt(current, value);
                 updateTree(newNode);
-                addWeightTillRootPath(newNode);
                 throw new FulfilledRecursionGoal();
             }
             divideNytAndAddValue(current.left, value);
@@ -79,7 +77,7 @@ public abstract class Tree<T extends TreeNode, V extends TreeOperations> {
         return containsValueRecursive(current.left, value) || containsValueRecursive(current.right, value);
     }
 
-    private void addWeightTillRootPath(TreeNode current) {
+    protected void addWeightTillRootPath(TreeNode current) {
         current.weight++;
         if (Objects.nonNull(current.parent)) {
             addWeightTillRootPath(current.parent);

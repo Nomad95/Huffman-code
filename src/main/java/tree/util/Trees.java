@@ -3,10 +3,12 @@ package tree.util;
 import tree.Tree;
 import tree.TreeNode;
 
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Objects;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
+@SuppressWarnings({"all"})
 public final class Trees {
 
     public static int getTreeRootWeight(Tree tree) {
@@ -59,7 +61,7 @@ public final class Trees {
         }
     }
 
-    public static boolean isHuffmanTree(Tree tree) {
+    public static boolean nodesMakesASequenceOfNonIncreasingWeights(Tree tree) {
         List<TreeNode> nodes = tree.getNodesReversedLevelOrder();
         ListIterator<TreeNode> iterator = nodes.listIterator();
         TreeNode current = iterator.next();
@@ -73,4 +75,77 @@ public final class Trees {
 
         return true;
     }
+
+    public static boolean allInternalNodesHasTwoChildren(Tree tree) {
+        return hasTwoChildrenOrIsALeaf(tree.getRootNode());
+    }
+
+    private static boolean hasTwoChildrenOrIsALeaf(TreeNode node) {
+        if (Objects.isNull(node) || node.isNyt()) {
+            return true;
+        }
+        if (node.isInternalNode())
+        if (Objects.isNull(node.left) || Objects.isNull(node.right)) {
+            return false;
+        }
+        boolean leftValue = hasTwoChildrenOrIsALeaf(node.left);
+        boolean rightValue = hasTwoChildrenOrIsALeaf(node.right);
+
+        return leftValue || rightValue;
+    }
+
+    public static boolean nodesMakesNonIncreasingNodeLeafSequences(Tree tree) {
+        List<TreeNode> nodes = tree.getNodesReversedLevelOrder();
+
+        int[] weights = nodes.stream().mapToInt(node -> node.weight).toArray();
+        Set<List<TreeNode>> sublistsByWeight = IntStream.of(weights)
+                .mapToObj(weight -> getSublistOfWeight(nodes, weight))
+                .collect(Collectors.toCollection(() -> new TreeSet<>(Comparator.comparingInt(Trees::getListWeightValue))));
+
+        AtomicBoolean finalResult = new AtomicBoolean(true);
+        sublistsByWeight.forEach(sublist -> {
+            if (sublist.size() == 1) {
+                return;
+            }
+            ListIterator<TreeNode> sublistIterator = sublist.listIterator();
+            TreeNode current = sublistIterator.next();
+            while (sublistIterator.hasNext()) {
+                TreeNode next = sublistIterator.next();
+                if (current.isInternalNode() && !next.isInternalNode()) {
+                    finalResult.set(false);
+                    return;
+                }
+            }
+
+        });
+
+        return finalResult.get();
+    }
+
+    public static List<TreeNode> getSublistOfWeight(List<TreeNode> list, int weight) {
+        return list.stream().filter(node -> node.weight == weight).collect(Collectors.toList());
+    }
+
+    public static int getListWeightValue(List<TreeNode> list) {
+        return list.stream().map(node -> node.weight).findFirst().orElse(-1);
+    }
+
+    //todo: generify this
+    public static boolean isNonIncreasingNodeLeafSequence(List<TreeNode> list) {
+        if (list.size() == 1) {
+            return true;
+        }
+        ListIterator<TreeNode> sublistIterator = list.listIterator();
+        TreeNode current = sublistIterator.next();
+        while (sublistIterator.hasNext()) {
+            TreeNode next = sublistIterator.next();
+            if (current.isInternalNode() && !next.isInternalNode()) {
+                return false;
+            }
+            current = next;
+        }
+
+        return true;
+    }
+
 }

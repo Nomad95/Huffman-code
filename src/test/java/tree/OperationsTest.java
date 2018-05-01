@@ -1,6 +1,5 @@
 package tree;
 
-import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -8,38 +7,43 @@ import tree.factory.NodeFactory;
 import tree.impl.FKGTree;
 import tree.util.Trees;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static tree.factory.TreeFactory.createSampleFKGTree;
+import static tree.factory.TreeFactory.createSampleVitterTree;
 
 public class OperationsTest {
 
+    public static final int EXPECTED_TREE_ROOT_WEIGHT = 5;
+
     @Test
     public void shouldContainValue() {
-        FKGTree comparableFKGTree = (FKGTree) createSampleTree();
+        FKGTree comparableFKGTree =  createSampleFKGTree();
 
         TreeNodeValue value = new TreeNodeValue('b');
 
         boolean doesContain = comparableFKGTree.containsValue(value);
 
-        Assertions.assertEquals(true, doesContain, "tree doesnt contain node with value: " + value);
+        Assertions.assertTrue(doesContain, "tree doesnt contain node with value: " + value);
     }
 
     @Test
     public void shouldNotContainValue() {
-        FKGTree comparableFKGTree = (FKGTree) createSampleTree();
+        FKGTree comparableFKGTree = createSampleFKGTree();
 
         TreeNodeValue value = new TreeNodeValue('y');
 
         boolean doesContain = comparableFKGTree.containsValue(value);
 
-        Assertions.assertEquals(false, doesContain, "tree contains node with value: " + value);
+        Assertions.assertFalse(doesContain, "tree contains node with value: " + value);
     }
 
     @Test
     public void treeShouldHaveConsistentWeight() {
-        Tree tree = createSampleTree();
+        Tree tree = createSampleFKGTree();
         int treeRootWeight = Trees.getTreeRootWeight(tree);
         int treeWeightSum = Trees.getTreeWeightSum(tree);
 
@@ -48,7 +52,7 @@ public class OperationsTest {
 
     @Test
     public void shouldDivideNytNode() {
-        Tree tree = createSampleTree();
+        Tree tree = createSampleFKGTree();
 
         int nodeCountBefore = Trees.nodeCount(tree);
 
@@ -61,27 +65,27 @@ public class OperationsTest {
 
     @Test
     public void shouldAddItemAndBePresent() {
-        Tree tree = createSampleTree();
+        Tree tree = createSampleFKGTree();
         TreeNode<TreeNodeValue> value = NodeFactory.createNodeOf(new TreeNodeValue('j'));
 
         tree.addValue(value);
         boolean doesContain = tree.containsValue(value);
 
-        Assertions.assertEquals(true, doesContain);
+        Assertions.assertTrue(doesContain);
     }
 
     @Test
     public void shouldGetTreeHeight() {
-        Tree tree = createSampleTree();
+        Tree tree = createSampleFKGTree();
 
         int treeHeight = Trees.getTreeHeight(tree);
 
-        Assertions.assertEquals(5, treeHeight);
+        Assertions.assertEquals(EXPECTED_TREE_ROOT_WEIGHT, treeHeight);
     }
 
     @Test
     public void shouldGetReverseLevelOrderedNodesList() {
-        Tree tree = createSampleTree();
+        Tree tree = createSampleFKGTree();
 
         List<TreeNode> nodes = tree.getNodesReversedLevelOrder();
 
@@ -100,29 +104,55 @@ public class OperationsTest {
     }
 
     @Test
-    public void shouldBeHuffmanTree() {
-        Tree tree = createSampleTree();
+    public void shouldBeProperFKGTree() {
+        Tree tree = createSampleFKGTree();
 
-        boolean isHuffmanTree = Trees.isHuffmanTree(tree);
+        boolean hasNonIncreasingOrder = Trees.nodesMakesASequenceOfNonIncreasingWeights(tree);
+        boolean allInternalNodesHas2Children = Trees.allInternalNodesHasTwoChildren(tree);
+        boolean hasCorrectWeights = Trees.getTreeRootWeight(tree) == EXPECTED_TREE_ROOT_WEIGHT;
 
-        Assertions.assertEquals(true, isHuffmanTree);
+        Assertions.assertTrue(
+                hasCorrectWeights
+                        && allInternalNodesHas2Children
+                        && hasNonIncreasingOrder);
     }
 
-    public static Tree createSampleTree() {
-        TreeNodeValue value1 = new TreeNodeValue('a');
-        TreeNodeValue value2 = new TreeNodeValue('b');
-        TreeNodeValue value3 = new TreeNodeValue('a');
-        TreeNodeValue value4 = new TreeNodeValue('v');
-        TreeNodeValue value5 = new TreeNodeValue('g');
+    @Test
+    public void shouldBeProperVitterTree() {
+        Tree tree = createSampleVitterTree();
+        boolean isVitterTree = Trees.nodesMakesNonIncreasingNodeLeafSequences(tree);
 
-        FKGTree comparableFKGTree = new FKGTree();
-
-        comparableFKGTree.addValue(value1);
-        comparableFKGTree.addValue(value2);
-        comparableFKGTree.addValue(value3);
-        comparableFKGTree.addValue(value4);
-        comparableFKGTree.addValue(value5);
-
-        return comparableFKGTree;
+        Assertions.assertTrue(isVitterTree);
     }
+
+    @Test
+    public void shouldBeNonIncreasingNodeLeafSequence() {
+        List<TreeNode> nodes = new ArrayList<>(5);
+
+        nodes.add(NodeFactory.createNodeWithWeightOf(new TreeNodeValue('a'), 3));
+        nodes.add(NodeFactory.createNodeWithWeightOf(new TreeNodeValue('b'), 3));
+        nodes.add(NodeFactory.createNodeWithWeightOf(new TreeNodeValue('c'), 3));
+        nodes.add(NodeFactory.createInternalWithWeight(3));
+        nodes.add(NodeFactory.createInternalWithWeight(3));
+
+        boolean isNonIncreasingNodeLeafSequence = Trees.isNonIncreasingNodeLeafSequence(nodes);
+
+        Assertions.assertTrue(isNonIncreasingNodeLeafSequence);
+    }
+
+    @Test
+    public void shouldNotBeNonIncreasingNodeLeafSequence() {
+        List<TreeNode> nodes = new ArrayList<>(5);
+
+        nodes.add(NodeFactory.createNodeWithWeightOf(new TreeNodeValue('c'), 3));
+        nodes.add(NodeFactory.createInternalWithWeight(3));
+        nodes.add(NodeFactory.createNodeWithWeightOf(new TreeNodeValue('a'), 3));
+        nodes.add(NodeFactory.createInternalWithWeight(3));
+        nodes.add(NodeFactory.createNodeWithWeightOf(new TreeNodeValue('b'), 3));
+
+        boolean isNonIncreasingNodeLeafSequence = Trees.isNonIncreasingNodeLeafSequence(nodes);
+
+        Assertions.assertFalse(isNonIncreasingNodeLeafSequence);
+    }
+
 }

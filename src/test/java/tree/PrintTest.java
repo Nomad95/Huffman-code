@@ -2,16 +2,27 @@ package tree;
 
 import org.junit.jupiter.api.Test;
 import tree.impl.FKGTree;
+import tree.impl.VitterTree;
 import treePrinter.BTreePrinter;
 import treePrinter.PrintStrategyImpl.WeightPrintStrategy;
+
+import static tree.factory.TreeFactory.createSampleFKGTree;
+import static tree.factory.TreeFactory.createSampleVitterTree;
 
 public class PrintTest {
 
     @Test
     public void shouldPrintTree() {
-        FKGTree comparableFKGTree = (FKGTree) OperationsTest.createSampleTree();
+        FKGTree tree = createSampleFKGTree();
 
-        BTreePrinter.printNode(comparableFKGTree.getRootNode(), new WeightPrintStrategy());
+        BTreePrinter.printNode(tree.getRootNode(), new WeightPrintStrategy());
+    }
+
+    @Test
+    public void shouldPrintVitterTree() {
+        VitterTree tree = createSampleVitterTree();
+
+        BTreePrinter.printNode(tree.getRootNode(), new WeightPrintStrategy());
     }
 
     @Test

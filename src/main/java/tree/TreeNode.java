@@ -23,6 +23,11 @@ public class TreeNode<T extends TreeOperations> implements TreeOperations{
         return nyt;
     }
 
+    public boolean isInternalNode() {
+        return !isNyt() && Objects.isNull(value);
+
+    }
+
     @Override
     public int compareTo(Object o) {
         if (o instanceof TreeNode) {

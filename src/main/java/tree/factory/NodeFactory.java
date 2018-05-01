@@ -17,4 +17,16 @@ public final class NodeFactory {
         nytTreeNode.weight = 0;
         return nytTreeNode;
     }
+
+    public static <T extends TreeOperations> TreeNode<T> createNodeWithWeightOf(T value, int weight) {
+        TreeNode<T> nytTreeNode = new TreeNode<>(value);
+        nytTreeNode.weight = weight;
+        return nytTreeNode;
+    }
+
+    public static <T extends TreeOperations> TreeNode<T> createInternalWithWeight(int weight) {
+        TreeNode<T> nytTreeNode = new TreeNode<>(null);
+        nytTreeNode.weight = weight;
+        return nytTreeNode;
+    }
 }
