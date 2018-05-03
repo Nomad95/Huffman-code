@@ -1,6 +1,6 @@
 package tree.util;
 
-import tree.TreeNode;
+import tree.model.TreeNode;
 
 import java.util.Objects;
 

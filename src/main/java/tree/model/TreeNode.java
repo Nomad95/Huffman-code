@@ -1,8 +1,11 @@
-package tree;
+package tree.model;
+
+import tree.Codeable;
+import tree.TreeOperations;
 
 import java.util.Objects;
 
-public class TreeNode<T extends TreeOperations> implements TreeOperations{
+public class TreeNode<T extends Codeable> implements TreeOperations {
 
     public T value;
     public TreeNode<T> left;

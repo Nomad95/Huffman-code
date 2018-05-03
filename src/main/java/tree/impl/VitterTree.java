@@ -1,10 +1,9 @@
 package tree.impl;
 
-import tree.Tree;
-import tree.TreeNode;
-import tree.TreeNodeValue;
-import tree.TreeOperations;
+import tree.*;
 import tree.factory.NodeFactory;
+import tree.model.TreeNode;
+import tree.model.TreeNodeValue;
 import tree.util.NodeSwapper;
 import tree.util.Trees;
 
@@ -17,7 +16,7 @@ import static tree.util.Trees.getSublistOfWeight;
 public class VitterTree extends Tree<TreeNode, TreeNodeValue> {
 
     public VitterTree() {
-        TreeNode<TreeOperations> rootNode = NodeFactory.createNytNode();
+        TreeNode<Codeable> rootNode = NodeFactory.createNytNode();
         this.setRootNode(rootNode);
     }
 

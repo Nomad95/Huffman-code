@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import tree.factory.NodeFactory;
 import tree.impl.FKGTree;
+import tree.model.TreeNode;
+import tree.model.TreeNodeValue;
 import tree.util.Trees;
 
 import java.util.ArrayList;
@@ -56,7 +58,7 @@ public class OperationsTest {
 
         int nodeCountBefore = Trees.nodeCount(tree);
 
-        tree.addValue(NodeFactory.createNodeOf(new TreeNodeValue('j')));
+        tree.addValue(new TreeNodeValue('j'));
 
         int nodeCountAfter = Trees.nodeCount(tree);
 
@@ -66,7 +68,7 @@ public class OperationsTest {
     @Test
     public void shouldAddItemAndBePresent() {
         Tree tree = createSampleFKGTree();
-        TreeNode<TreeNodeValue> value = NodeFactory.createNodeOf(new TreeNodeValue('j'));
+        TreeNodeValue value = new TreeNodeValue('j');
 
         tree.addValue(value);
         boolean doesContain = tree.containsValue(value);

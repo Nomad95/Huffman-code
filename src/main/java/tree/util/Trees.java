@@ -1,7 +1,7 @@
 package tree.util;
 
 import tree.Tree;
-import tree.TreeNode;
+import tree.model.TreeNode;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;

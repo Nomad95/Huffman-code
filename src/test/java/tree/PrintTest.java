@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import tree.impl.FKGTree;
 import tree.impl.VitterTree;
 import treePrinter.BTreePrinter;
+import treePrinter.PrintStrategyImpl.ByteRepresentationPrintStrategy;
 import treePrinter.PrintStrategyImpl.WeightPrintStrategy;
 
 import static tree.factory.TreeFactory.createSampleFKGTree;
@@ -23,6 +24,14 @@ public class PrintTest {
         VitterTree tree = createSampleVitterTree();
 
         BTreePrinter.printNode(tree.getRootNode(), new WeightPrintStrategy());
+    }
+
+    @Test
+    public void shouldPrintEncodedValues() {
+        FKGTree tree = createSampleFKGTree();
+        tree.computeBinaryValues();
+
+        BTreePrinter.printNode(tree.getRootNode(), new ByteRepresentationPrintStrategy());
     }
 
     @Test

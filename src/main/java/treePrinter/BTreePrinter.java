@@ -1,9 +1,8 @@
 package treePrinter;
 
 import aspect.annotation.LogTimeExecution;
-import lombok.extern.log4j.Log4j;
-import tree.TreeNode;
-import tree.TreeOperations;
+import tree.Codeable;
+import tree.model.TreeNode;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,14 +10,14 @@ import java.util.List;
 
 public class BTreePrinter {
 
-    public static <T extends TreeOperations> void printNode(TreeNode<T> root, PrintStrategy printStrategy) {
+    public static <T extends Codeable> void printNode(TreeNode<T> root, PrintStrategy printStrategy) {
         int maxLevel = BTreePrinter.maxLevel(root);
 
         printNodeInternal(Collections.singletonList(root), 1, maxLevel, printStrategy);
     }
 
     @LogTimeExecution
-    private static <T extends TreeOperations> void printNodeInternal(List<TreeNode<T>> nodes, int level, int maxLevel, PrintStrategy printStrategy) {
+    private static <T extends Codeable> void printNodeInternal(List<TreeNode<T>> nodes, int level, int maxLevel, PrintStrategy printStrategy) {
         if (nodes.isEmpty() || BTreePrinter.isAllElementsNull(nodes)) {
             return;
         }
@@ -83,7 +82,7 @@ public class BTreePrinter {
         }
     }
 
-    private static <T extends TreeOperations> int maxLevel(TreeNode<T> node) {
+    private static <T extends Codeable> int maxLevel(TreeNode<T> node) {
         if (node == null) {
             return 0;
         }

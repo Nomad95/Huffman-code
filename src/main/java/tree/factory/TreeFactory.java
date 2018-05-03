@@ -1,6 +1,6 @@
 package tree.factory;
 
-import tree.TreeNodeValue;
+import tree.model.TreeNodeValue;
 import tree.impl.FKGTree;
 import tree.impl.VitterTree;
 

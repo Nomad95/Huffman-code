@@ -1,10 +1,9 @@
 package tree.impl;
 
-import tree.Tree;
-import tree.TreeNode;
-import tree.TreeNodeValue;
-import tree.TreeOperations;
+import tree.*;
 import tree.factory.NodeFactory;
+import tree.model.TreeNode;
+import tree.model.TreeNodeValue;
 import tree.util.NodeSwapper;
 
 import java.util.List;
@@ -16,7 +15,7 @@ import java.util.function.Predicate;
 public class FKGTree extends Tree<TreeNode, TreeNodeValue> {
 
     public FKGTree() {
-        TreeNode<TreeOperations> rootNode = NodeFactory.createNytNode();
+        TreeNode<Codeable> rootNode = NodeFactory.createNytNode();
         this.setRootNode(rootNode);
     }
 

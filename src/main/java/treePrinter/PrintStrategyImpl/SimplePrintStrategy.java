@@ -1,7 +1,6 @@
 package treePrinter.PrintStrategyImpl;
 
-import tree.TreeNode;
-import tree.TreeOperations;
+import tree.model.TreeNode;
 import treePrinter.PrintStrategy;
 
 public class SimplePrintStrategy implements PrintStrategy {

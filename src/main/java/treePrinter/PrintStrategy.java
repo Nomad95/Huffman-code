@@ -1,7 +1,6 @@
 package treePrinter;
 
-import tree.TreeNode;
-import tree.TreeOperations;
+import tree.model.TreeNode;
 
 public interface PrintStrategy {
     <T extends TreeNode> String print(T node);

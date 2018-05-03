@@ -3,6 +3,7 @@ package tree;
 import lombok.Getter;
 import lombok.Setter;
 import tree.factory.NodeFactory;
+import tree.model.TreeNode;
 import tree.util.FulfilledRecursionGoal;
 import tree.util.Trees;
 
@@ -13,7 +14,7 @@ import java.util.Objects;
 @SuppressWarnings("unchecked")
 @Getter
 @Setter
-public abstract class Tree<T extends TreeNode, V extends TreeOperations> {
+public abstract class Tree<T extends TreeNode, V extends Codeable> {
 
     protected T rootNode;
 
@@ -104,6 +105,21 @@ public abstract class Tree<T extends TreeNode, V extends TreeOperations> {
             addNode(nodesList, node.left, level - 1);
             addNode(nodesList, node.right, level - 1);
         }
+    }
+
+    public void computeBinaryValues() {
+        toBinaryValueRecursive(this.getRootNode(), "");
+    }
+
+    private void toBinaryValueRecursive(TreeNode current, String binaryValue) {
+        if (Objects.isNull(current)) {
+            return;
+        }
+        if (Objects.nonNull(current.value)) {
+            current.value.setEncodedValue(binaryValue);
+        }
+        toBinaryValueRecursive(current.left, binaryValue + "0");
+        toBinaryValueRecursive(current.right, binaryValue + "1");
     }
 
     abstract protected void updateTree(TreeNode current);
