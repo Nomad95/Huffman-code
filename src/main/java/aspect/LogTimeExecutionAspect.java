@@ -33,7 +33,7 @@ public class LogTimeExecutionAspect {
 
     private void logExecutionTime(ProceedingJoinPoint joinPoint, StopWatch stopWatch) {
         String logMessage = String.format(LOG_MESSAGE_FORMAT, joinPoint.getTarget().getClass().getName(), joinPoint.getSignature().getName(), stopWatch.getTime());
-        log.error(logMessage);
+        log.info(logMessage);
     }
 
 }

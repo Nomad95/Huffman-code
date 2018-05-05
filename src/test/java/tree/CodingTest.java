@@ -10,6 +10,7 @@ import tree.impl.FKGTree;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 
 public class CodingTest {
 
@@ -70,5 +71,25 @@ public class CodingTest {
         String decodedText = huffmanDecoder.decode();
 
         Assertions.assertEquals("To be or not to be", decodedText);
+    }
+
+    @Test
+    public void shouldComputeValidEnthropy() throws IOException {
+        InputStream fileInputStream = HuffmanEncoder.class.getClassLoader().getResourceAsStream("examples/toBe");
+        HuffmanEncoder huffmanEncoder = new HuffmanEncoder();
+        huffmanEncoder.encodeByFKG(fileInputStream);
+        BigDecimal enthropy = huffmanEncoder.getEntropy();
+
+        System.out.println(enthropy);
+    }
+
+    @Test
+    public void shouldComputeValidAverageCodeLength() throws IOException {
+        InputStream fileInputStream = HuffmanEncoder.class.getClassLoader().getResourceAsStream("examples/lorem");
+        HuffmanEncoder huffmanEncoder = new HuffmanEncoder();
+        huffmanEncoder.encodeByFKG(fileInputStream);
+        BigDecimal averageCodeLength = huffmanEncoder.getAverageCodeLength();
+
+        System.out.println(averageCodeLength);
     }
 }

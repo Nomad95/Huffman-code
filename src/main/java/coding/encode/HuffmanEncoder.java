@@ -1,18 +1,27 @@
 package coding.encode;
 
+import averageCodeLength.AverageCodeComputor;
 import coding.CodeTable;
 import coding.decode.HuffmanDecoder;
+import enthropy.EntropyComputor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import tree.Tree;
 import tree.impl.FKGTree;
 import tree.impl.VitterTree;
 import tree.model.TreeNodeValue;
+import treePrinter.BTreePrinter;
+import treePrinter.PrintStrategy;
 
 import java.io.*;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.Objects;
 
 import static coding.CodingUtils.streamToString;
 
+@Slf4j
 @NoArgsConstructor
 public class HuffmanEncoder {
 
@@ -20,6 +29,9 @@ public class HuffmanEncoder {
 
     @Getter
     private String encodedText;
+
+    @Getter
+    private String originalText;
 
     public void encodeByFKG(InputStream inputStream) throws IOException {
         String text = streamToString(inputStream);
@@ -44,6 +56,7 @@ public class HuffmanEncoder {
     }
 
     private void encode(String text) {
+        this.originalText = text;
         for (char c : text.toCharArray()){
             tree.addValue(new TreeNodeValue(c));
         }
@@ -60,7 +73,27 @@ public class HuffmanEncoder {
     }
 
     public HuffmanDecoder getDecoder() {
-        return new HuffmanDecoder(tree);
+        return new HuffmanDecoder(tree, encodedText);
     }
 
+    public void printTree(PrintStrategy printStrategy) {
+        BTreePrinter.printNode(tree.getRootNode(), printStrategy);
+    }
+
+    public BigDecimal getEntropy() {
+        if (Objects.isNull(originalText)) {
+            System.out.println("Cannot get entropy");
+            return new BigDecimal("0");
+        }
+
+        return EntropyComputor.computeEntropy(tree, originalText);
+    }
+
+    public BigDecimal getAverageCodeLength() {
+        if (Objects.isNull(originalText)) {
+            System.out.println("Cannot get average code length");
+            return new BigDecimal("0");
+        }
+        return AverageCodeComputor.computeAverageLength(tree, originalText).setScale(4, RoundingMode.HALF_EVEN);
+    }
 }

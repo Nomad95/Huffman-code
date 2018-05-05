@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import javafx.collections.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="700.0" prefWidth="1026.0" styleClass="mainFxmlClass"
+            xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2"
+            fx:controller="frontend.mainController.MainController">
+    <children>
+        <TabPane layoutX="14.0" layoutY="14.0" prefHeight="200.0" prefWidth="998.0" tabClosingPolicy="UNAVAILABLE">
+            <tabs>
+                <Tab text="Examples">
+                    <content>
+                        <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="998.0">
+                            <children>
+                                <Button fx:id="exampleCodeDecodeButton" layoutX="29.0" layoutY="91.0"
+                                        mnemonicParsing="false" text="Encode/Decode" onAction="#encodeExample"/>
+                                <MenuButton fx:id="exampleAlgorithmMenu" layoutX="29.0" layoutY="29.0"
+                                            mnemonicParsing="false" text="Algorithm">
+
+                                </MenuButton>
+                                <RadioButton fx:id="toBeExampleRadio" layoutX="208.0" layoutY="29.0"
+                                             mnemonicParsing="false" prefHeight="16.0" text="To be" selected="true">
+                                    <toggleGroup>
+                                        <ToggleGroup fx:id="examples"/>
+                                    </toggleGroup>
+                                </RadioButton>
+                                <RadioButton fx:id="loremIpsumRadio" layoutX="208.0" layoutY="91.0"
+                                             mnemonicParsing="false" text="Lorem ipsum" toggleGroup="$examples"/>
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </Tab>
+                <Tab text="Enter Text">
+                    <content>
+                        <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                            <children>
+                                <TextArea fx:id="enterTextTextArea" layoutX="164.0" layoutY="14.0" prefHeight="132.0"
+                                          prefWidth="820.0" wrapText="true"/>
+                                <MenuButton fx:id="menuEnterAlgorithmButton" layoutX="28.0" layoutY="27.0"
+                                            mnemonicParsing="false" text="Algorithm">
+                                </MenuButton>
+                                <Button fx:id="encodeDecodeEnterButton" layoutX="28.0" layoutY="85.0"
+                                        mnemonicParsing="false" text="Encode/Decode"/>
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </Tab>
+                <Tab text="Select file">
+                    <content>
+                        <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                            <children>
+                                <Button fx:id="selectFileButton" layoutX="28.0" layoutY="28.0" mnemonicParsing="false"
+                                        text="Select file..."/>
+                                <MenuButton id="menuFIleButton" fx:id="menuFIleAlgorithmButton" layoutX="28.0"
+                                            layoutY="64.0" mnemonicParsing="false" text="Algorithm">
+                                </MenuButton>
+                                <Button fx:id="encodeDecodeFileButton" layoutX="137.0" layoutY="64.0"
+                                        mnemonicParsing="false" text="Encode/Decode"/>
+                                <Label fx:id="okLabel" layoutX="123.0" layoutY="28.0" text="OK!" visible="false"/>
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </Tab>
+            </tabs>
+        </TabPane>
+        <Label fx:id="originalTextLabel" layoutX="53.0" layoutY="251.0" text="Original text"/>
+        <Label fx:id="encodedLabel" layoutX="53.0" layoutY="280.0" text="Encoded (bytes)"/>
+        <Label fx:id="lengthDifferenceLabel" layoutX="53.0" layoutY="334.0" text="Length difference"/>
+        <Label fx:id="decodedLabel" layoutX="53.0" layoutY="307.0" text="Decoded"/>
+        <Label id="executionTime" fx:id="executionTimeLabel" layoutX="53.0" layoutY="390.0" text="Execution time"/>
+        <Label fx:id="enthropyLabel" layoutX="53.0" layoutY="414.0" text="Enthropy"/>
+        <Label fx:id="averageLengthLabel" layoutX="53.0" layoutY="439.0" text="Average code length"/>
+        <Label fx:id="originalTextLabelResult" layoutX="192.0" layoutY="251.0" text="Label" underline="false"
+               visible="false"/>
+        <Label fx:id="encodedLabelResult" layoutX="192.0" layoutY="280.0" text="Label" visible="false"/>
+        <Label fx:id="decodedLabelResult" layoutX="192.0" layoutY="307.0" text="Label" visible="false"/>
+        <Label id="lengthDifferenceLabel" fx:id="lengthDifferenceLabelResult" layoutX="192.0" layoutY="334.0"
+               text="Label" visible="false"/>
+        <Label fx:id="executionTimeLabelResult" layoutX="192.0" layoutY="390.0" text="Label" visible="false"/>
+        <Label fx:id="enthropyLabelResult" layoutX="192.0" layoutY="414.0" text="Label" visible="false"/>
+        <Label id="enthropyLabel" fx:id="averageLengthLabelResult" layoutX="192.0" layoutY="439.0" text="Label"
+               visible="false"/>
+    </children>
+</AnchorPane>

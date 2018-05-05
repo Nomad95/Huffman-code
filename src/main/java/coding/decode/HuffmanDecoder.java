@@ -2,6 +2,8 @@ package coding.decode;
 
 import tree.Tree;
 import tree.model.TreeNode;
+import treePrinter.BTreePrinter;
+import treePrinter.PrintStrategy;
 
 public class HuffmanDecoder {
 
@@ -70,5 +72,9 @@ public class HuffmanDecoder {
     public void setStringToEncode(String stringToEncode) {
         reset();
         this.encoded = stringToEncode.toCharArray();
+    }
+
+    public void printTree(PrintStrategy printStrategy) {
+        BTreePrinter.printNode(tree.getRootNode(), printStrategy);
     }
 }
